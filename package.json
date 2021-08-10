@@ -1,0 +1,28 @@
+{
+  "name": "web-authn-components",
+  "version": "0.1.0",
+  "description": "Web Components that make the Web Authentication API a little easier to use.",
+  "type": "module",
+  "exports": {
+    "login": "./web-authn-login.js",
+    "register": "./web-authn-register.js",
+    "recover": "./web-authn-recover.js",
+    "enroll": "./web-authn-enroll.js",
+    "connect": "./web-authn-connect.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TechWebAuthn/web-authn-components.git"
+  },
+  "keywords": [
+    "web",
+    "components",
+    "authn"
+  ],
+  "author": "Bogdan Arvinte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TechWebAuthn/web-authn-components/issues"
+  },
+  "homepage": "https://github.com/TechWebAuthn/web-authn-components#readme"
+}
