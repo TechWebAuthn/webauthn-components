@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "description": "Web Components that make the Web Authentication API a little easier to use.",
   "type": "module",
+  "scripts": {
+    "prepublishOnly": "node ./prepare-release.js"
+  },
   "exports": {
-    "./login": "./web-authn-login.js",
-    "./register": "./web-authn-register.js",
-    "./recover": "./web-authn-recover.js",
-    "./enroll": "./web-authn-enroll.js",
-    "./connect": "./web-authn-connect.js"
+    "./login": "./dist/web-authn-login.js",
+    "./register": "./dist/web-authn-register.js",
+    "./recover": "./dist/web-authn-recover.js",
+    "./enroll": "./dist/web-authn-enroll.js",
+    "./connect": "./dist/web-authn-connect.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/TechWebAuthn/web-authn-components/issues"
   },
-  "homepage": "https://github.com/TechWebAuthn/web-authn-components#readme"
+  "homepage": "https://github.com/TechWebAuthn/web-authn-components#readme",
+  "devDependencies": {
+    "terser": "^5.7.1"
+  }
 }
