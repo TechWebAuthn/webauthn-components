@@ -75,7 +75,7 @@ export class WebAuthnConnect extends HTMLElement {
   }
 
   get label() {
-    return this.getAttribute("label") || "Username";
+    return this.getAttribute("label") || "Code";
   }
 
   set label(value) {
@@ -83,7 +83,7 @@ export class WebAuthnConnect extends HTMLElement {
   }
 
   get buttonText() {
-    return this.getAttribute("button-text") || "Login";
+    return this.getAttribute("button-text") || "Connect";
   }
 
   set buttonText(value) {
@@ -99,7 +99,7 @@ export class WebAuthnConnect extends HTMLElement {
   }
 
   get inputName() {
-    return this.getAttribute("input-name") || "username";
+    return this.getAttribute("input-name") || "code";
   }
 
   set inputName(value) {
