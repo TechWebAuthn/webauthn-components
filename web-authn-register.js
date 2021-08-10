@@ -139,7 +139,7 @@ export class WebAuthnRegister extends HTMLElement {
       return CACHE.publicKeyCredentialCreateOptionsDecoder;
     }
 
-    const { decodePublicKeyCredentialCreateOptions } = await import("../utils/parse");
+    const { decodePublicKeyCredentialCreateOptions } = await import("./utils/parse");
     CACHE.publicKeyCredentialCreateOptionsDecoder = decodePublicKeyCredentialCreateOptions;
 
     return CACHE.publicKeyCredentialCreateOptionsDecoder;
@@ -154,7 +154,7 @@ export class WebAuthnRegister extends HTMLElement {
       return CACHE.registerCredentialEncoder;
     }
 
-    const { encodeRegisterCredential } = await import("../utils/parse");
+    const { encodeRegisterCredential } = await import("./utils/parse");
     CACHE.registerCredentialEncoder = encodeRegisterCredential;
 
     return CACHE.registerCredentialEncoder;

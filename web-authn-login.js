@@ -154,7 +154,7 @@ export class WebAuthnLogin extends HTMLElement {
       return CACHE.loginCredentialEncoder;
     }
 
-    const { encodeLoginCredential } = await import("../utils/parse");
+    const { encodeLoginCredential } = await import("./utils/parse");
     CACHE.loginCredentialEncoder = encodeLoginCredential;
 
     return CACHE.loginCredentialEncoder;

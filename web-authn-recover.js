@@ -106,7 +106,7 @@ export class WebAuthnRecover extends HTMLElement {
       return CACHE.publicKeyCredentialCreateOptionsDecoder;
     }
 
-    const { decodePublicKeyCredentialCreateOptions } = await import("../utils/parse");
+    const { decodePublicKeyCredentialCreateOptions } = await import("./utils/parse");
     CACHE.publicKeyCredentialCreateOptionsDecoder = decodePublicKeyCredentialCreateOptions;
 
     return CACHE.publicKeyCredentialCreateOptionsDecoder;
