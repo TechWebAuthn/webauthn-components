@@ -10,28 +10,38 @@ _Used for connecting with a previously registered account_
 
 ### **Properties**
 
-`assertionStartUrl`
+⚙️ `assertionStartUrl`
 
 _Endpoint for retrieving details and challenge from the server_
 
 - type: `String`
 - default: `/api/assertion/start`
 
-`assertionFinishUrl`
+⚙️ `assertionFinishUrl`
 
 _Endpoint for completing the assertion process and sending the challenge result to the server_
 
 - type: `String`
 - default: `/api/assertion/finish`
 
-`fetchOptions`
+⚙️ `fetchOptions`
 
 _Fetch options used for all request within this component_
 
 - type: `Object`
-- default:<code><br>{<br>‏‏‎ ‎‏‏‎ ‎method: "POST",<br>‏‏‎ ‎‏‏‎ ‎credentials:‏‏‎ ‎"include",<br>‏‏‎ ‎‏‏‎ ‎headers:‏‏‎ ‎{<br>‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎"Content-Type":‏‏‎ "application/json"<br>‏‏‎ ‎‏‏‎ ‎}<br>}</code>
+- default:
 
-`noUsername`
+```json
+{
+  ‎method: "POST",
+  ‎credentials:‏‏‎ ‎"include",
+  headers:‏‏‎ ‎{
+    ‎"Content-Type":‏‏‎ "application/json"
+  ‎}
+}
+```
+
+⚙️ `noUsername`
 
 _Should login be done without a username_
 
@@ -39,7 +49,7 @@ _Should login be done without a username_
 - default: `false`
 - refflected attribute: `no-username`
 
-`label`
+⚙️ `label`
 
 _Username label content_
 
@@ -47,7 +57,7 @@ _Username label content_
 - default: `Username`
 - refflected attribute: `label`
 
-`inputType`
+⚙️ `inputType`
 
 _The type of input to use for the username_
 
@@ -55,7 +65,7 @@ _The type of input to use for the username_
 - default: `text` (any valid HTML input type)
 - refflected attribute: `input-type`
 
-`inputName`
+⚙️ `inputName`
 
 _The name of the input to use for the username_
 
@@ -63,7 +73,7 @@ _The name of the input to use for the username_
 - default: `username`
 - refflected attribute: `input-name`
 
-`buttonText`
+⚙️ `buttonText`
 
 _The text displayed on the login button_
 
