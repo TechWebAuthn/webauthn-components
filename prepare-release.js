@@ -1,6 +1,7 @@
 import fs from "fs";
 import { minify } from "terser";
 
+cleanupDistFolder();
 const files = getJSFiles("./src");
 files.map(minifyJSFile).forEach(saveFileToDist);
 
@@ -32,6 +33,7 @@ async function minifyJSFile(path) {
 async function saveFileToDist(data) {
   const { path, code } = await data;
   const distPath = path.replace("./src", "./dist");
+  console.log(distPath);
   try {
     fs.writeFileSync(distPath, code);
   } catch (error) {
@@ -40,4 +42,9 @@ async function saveFileToDist(data) {
       fs.writeFileSync(distPath, code);
     }
   }
+}
+
+function cleanupDistFolder() {
+  fs.rmdirSync("./dist/", { recursive: true });
+  fs.mkdirSync("./dist");
 }

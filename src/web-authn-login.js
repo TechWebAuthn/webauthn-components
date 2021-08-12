@@ -163,7 +163,7 @@ export class WebAuthnLogin extends HTMLElement {
   async _onFormSubmit(event) {
     event.preventDefault();
 
-    this.dispatchEvent(new CustomEvent("assertion-start"));
+    this.dispatchEvent(new CustomEvent("login-started"));
 
     const formData = new FormData(event.target);
     const username = formData.get("username");
@@ -177,7 +177,7 @@ export class WebAuthnLogin extends HTMLElement {
       const { assertionId, publicKeyCredentialRequestOptions } = await startResponse.json();
 
       if (!startResponse.ok) {
-        throw new Error("Could not successfuly start assertion");
+        throw new Error("Could not successfuly start login");
       }
 
       const decodePublicKeyCredentialRequestOptions =
@@ -187,7 +187,7 @@ export class WebAuthnLogin extends HTMLElement {
         publicKey: decodePublicKeyCredentialRequestOptions(publicKeyCredentialRequestOptions),
       });
 
-      this.dispatchEvent(new CustomEvent("assertion-respond"));
+      this.dispatchEvent(new CustomEvent("login-retrieved"));
 
       const encodeLoginCredential = await this._getLoginCredentialEncoder();
 
@@ -197,15 +197,13 @@ export class WebAuthnLogin extends HTMLElement {
       });
 
       if (!finishResponse.ok) {
-        throw new Error("Could not successfuly complete assertion");
+        throw new Error("Could not successfuly complete login");
       }
 
       const jsonFinishResponse = await finishResponse.json();
-      this.dispatchEvent(new CustomEvent("assertion-finished", { detail: jsonFinishResponse }));
+      this.dispatchEvent(new CustomEvent("login-finished", { detail: jsonFinishResponse }));
     } catch (error) {
-      this.dispatchEvent(
-        new CustomEvent("assertion-error", { detail: { message: error.message } })
-      );
+      this.dispatchEvent(new CustomEvent("login-error", { detail: { message: error.message } }));
     }
   }
 }

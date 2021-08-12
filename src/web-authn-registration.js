@@ -1,6 +1,6 @@
 const CACHE = {};
 
-export class WebAuthnRegister extends HTMLElement {
+export class WebAuthnRegistration extends HTMLElement {
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
@@ -163,7 +163,7 @@ export class WebAuthnRegister extends HTMLElement {
   async _onFormSubmit(event) {
     event.preventDefault();
 
-    this.dispatchEvent(new CustomEvent("registration-start"));
+    this.dispatchEvent(new CustomEvent("registration-started"));
 
     const formData = new FormData(event.target);
     const input = this.root.querySelector("input");
@@ -189,7 +189,7 @@ export class WebAuthnRegister extends HTMLElement {
         publicKey: decodePublicKeyCredentialCreateOptions(publicKeyCredentialCreationOptions),
       });
 
-      this.dispatchEvent(new CustomEvent("registration-respond"));
+      this.dispatchEvent(new CustomEvent("registration-created"));
 
       const encodeRegisterCredential = await this._getRegisterCredentialEncoder();
 
@@ -216,4 +216,4 @@ export class WebAuthnRegister extends HTMLElement {
   }
 }
 
-customElements.define("web-authn-register", WebAuthnRegister);
+customElements.define("web-authn-registration", WebAuthnRegistration);

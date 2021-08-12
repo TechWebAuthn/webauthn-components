@@ -1,6 +1,6 @@
 const CACHE = {};
 
-export class WebAuthnRecover extends HTMLElement {
+export class WebAuthnRecovery extends HTMLElement {
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
@@ -130,7 +130,7 @@ export class WebAuthnRecover extends HTMLElement {
   async _onFormSubmit(event) {
     event.preventDefault();
 
-    this.dispatchEvent(new CustomEvent("recovery-start"));
+    this.dispatchEvent(new CustomEvent("recovery-started"));
 
     const formData = new FormData(event.target);
     const input = this.root.querySelector("input");
@@ -156,7 +156,7 @@ export class WebAuthnRecover extends HTMLElement {
         publicKey: decodePublicKeyCredentialCreateOptions(publicKeyCredentialCreationOptions),
       });
 
-      this.dispatchEvent(new CustomEvent("recovery-respond"));
+      this.dispatchEvent(new CustomEvent("recovery-created"));
 
       const encodeRegisterCredential = await this._getRegisterCredentialEncoder();
 
@@ -170,7 +170,7 @@ export class WebAuthnRecover extends HTMLElement {
       });
 
       if (!finishResponse.ok) {
-        throw new Error("Could not successfuly complete registration");
+        throw new Error("Could not successfuly complete recovery");
       }
 
       const jsonFinishResponse = await finishResponse.json();
@@ -181,4 +181,4 @@ export class WebAuthnRecover extends HTMLElement {
   }
 }
 
-customElements.define("web-authn-recover", WebAuthnRecover);
+customElements.define("web-authn-recovery", WebAuthnRecovery);

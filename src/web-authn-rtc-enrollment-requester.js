@@ -1,6 +1,6 @@
 const CACHE = {};
 
-export class WebAuthnEnroll extends HTMLElement {
+export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
@@ -8,7 +8,7 @@ export class WebAuthnEnroll extends HTMLElement {
     this._onConfirmFormSubmitListener = this._onConfirmFormSubmit.bind(this);
     this._onConfirmFormResetListener = this._onConfirmFormReset.bind(this);
     this._onAcceptUserAgreementListener = this._onAcceptUserAgreement.bind(this);
-    this._onConfirmCodeListener = this._onConfirmCode.bind(this);
+    this._onEnrollmentProviderConnectedListener = this._onEnrollmentProviderConnected.bind(this);
     this.enrollmentStartUrl = "/api/registration/start";
     this.enrollmentFinishUrl = "/api/registration/finish";
     this.fetchOptions = {
@@ -45,7 +45,10 @@ export class WebAuthnEnroll extends HTMLElement {
     this.root
       .querySelector("#user-agreement")
       .addEventListener("change", this._onAcceptUserAgreementListener);
-    this.addEventListener("enrollment-code-confirmed", this._onConfirmCodeListener);
+    this.addEventListener(
+      "enrollment-provider-connected",
+      this._onEnrollmentProviderConnectedListener
+    );
   }
 
   disconnectedCallback() {
@@ -61,7 +64,10 @@ export class WebAuthnEnroll extends HTMLElement {
     this.root
       .querySelector("#user-agreement")
       .removeEventListener("change", this._onAcceptUserAgreementListener);
-    this.removeEventListener("enrollment-code-confirmed", this._onConfirmCodeListener);
+    this.removeEventListener(
+      "enrollment-provider-connected",
+      this._onEnrollmentProviderConnectedListener
+    );
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -135,7 +141,7 @@ export class WebAuthnEnroll extends HTMLElement {
   }
 
   get confirmButtonText() {
-    return this.getAttribute("confirm-button-text") || "Add device";
+    return this.getAttribute("confirm-button-text") || "Enroll device";
   }
 
   set confirmButtonText(value) {
@@ -212,7 +218,7 @@ export class WebAuthnEnroll extends HTMLElement {
     this.dispatchEvent(new CustomEvent("enrollment-code-requested"));
   }
 
-  _onConfirmCode() {
+  _onEnrollmentProviderConnected() {
     this.root.querySelector("#request-form").hidden = true;
     this.root.querySelector("#request-form").part.add("hidden");
     this.root.querySelector("#confirm-form").hidden = false;
@@ -245,7 +251,7 @@ export class WebAuthnEnroll extends HTMLElement {
     event.preventDefault();
     if (!this.registrationAddToken) return;
 
-    this.dispatchEvent(new CustomEvent("enrollment-start"));
+    this.dispatchEvent(new CustomEvent("enrollment-requested"));
 
     try {
       const startResponse = await fetch(this.enrollmentStartUrl, {
@@ -266,7 +272,7 @@ export class WebAuthnEnroll extends HTMLElement {
         publicKey: decodePublicKeyCredentialCreateOptions(publicKeyCredentialCreationOptions),
       });
 
-      this.dispatchEvent(new CustomEvent("enrollment-respond"));
+      this.dispatchEvent(new CustomEvent("enrollment-created"));
 
       const encodeRegisterCredential = await this._getRegisterCredentialEncoder();
 
@@ -295,4 +301,4 @@ export class WebAuthnEnroll extends HTMLElement {
   }
 }
 
-customElements.define("web-authn-enroll", WebAuthnEnroll);
+customElements.define("web-authn-rtc-enrollment-requester", WebAuthnRTCEnrollmentRequester);

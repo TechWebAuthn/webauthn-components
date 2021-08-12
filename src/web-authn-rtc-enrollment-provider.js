@@ -1,10 +1,10 @@
-export class WebAuthnConnect extends HTMLElement {
+export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
     this._onFormSubmitListener = this._onFormSubmit.bind(this);
-    this._onRequestRegisterAddTokenListener = this._onRequestRegisterAddToken.bind(this);
-    this.registrationAddTokenUrl = "/api/registration/add";
+    this._onRequestEnrollmentListener = this._onRequestEnrollment.bind(this);
+    this.enrollmentTokenUrl = "/api/registration/add";
     this.fetchOptions = {
       method: "GET",
       credentials: "include",
@@ -21,18 +21,12 @@ export class WebAuthnConnect extends HTMLElement {
   connectedCallback() {
     this.update();
     this.root.querySelector("form").addEventListener("submit", this._onFormSubmitListener);
-    this.addEventListener(
-      "connection-request-registration-token",
-      this._onRequestRegisterAddTokenListener
-    );
+    this.addEventListener("enrollment-request", this._onRequestEnrollmentListener);
   }
 
   disconnectedCallback() {
     this.root.querySelector("form").removeEventListener("submit", this._onFormSubmitListener);
-    this.removeEventListener(
-      "connection-request-registration-token",
-      this._onRequestRegisterAddTokenListener
-    );
+    this.removeEventListener("enrollment-request", this._onRequestEnrollmentListener);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -44,9 +38,6 @@ export class WebAuthnConnect extends HTMLElement {
     const button = this.root.querySelector("button");
 
     switch (name) {
-      case "no-username":
-        this._shouldUseUsername();
-        break;
       case "label":
         label.textContent = newValue || this.label;
         break;
@@ -112,25 +103,23 @@ export class WebAuthnConnect extends HTMLElement {
     const formData = new FormData(event.target);
     const code = formData.get(this.inputName);
 
-    this.dispatchEvent(new CustomEvent("connection-start", { detail: { code } }));
+    this.dispatchEvent(new CustomEvent("enrollment-requested", { detail: { code } }));
   }
 
-  async _onRequestRegisterAddToken() {
+  async _onRequestEnrollment() {
     try {
-      const registrationResponse = await fetch(this.registrationAddTokenUrl, this.fetchOptions);
+      const response = await fetch(this.enrollmentTokenUrl, this.fetchOptions);
 
-      const jsonRegistrationResponse = await registrationResponse.json();
+      const jsonResponse = await response.json();
 
-      if (!registrationResponse.ok) {
-        throw new Error("Could not successfuly retrieve registration token");
+      if (!response.ok) {
+        throw new Error("Could not successfuly retrieve enrollment token");
       }
 
-      this.dispatchEvent(
-        new CustomEvent("connection-finished", { detail: jsonRegistrationResponse })
-      );
+      this.dispatchEvent(new CustomEvent("enrollment-provided", { detail: jsonResponse }));
     } catch (error) {
       this.dispatchEvent(
-        new CustomEvent("connection-error", { detail: { message: error.message } })
+        new CustomEvent("enrollment-error", { detail: { message: error.message } })
       );
     }
 
@@ -138,4 +127,4 @@ export class WebAuthnConnect extends HTMLElement {
   }
 }
 
-customElements.define("web-authn-connect", WebAuthnConnect);
+customElements.define("web-authn-rtc-enrollment-provider", WebAuthnRTCEnrollmentProvider);

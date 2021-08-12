@@ -1,6 +1,6 @@
 {
   "name": "web-authn-components",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Web Components that make the Web Authentication API a little easier to use.",
   "type": "module",
   "scripts": {
@@ -8,10 +8,12 @@
   },
   "exports": {
     "./login": "./dist/web-authn-login.js",
-    "./register": "./dist/web-authn-register.js",
-    "./recover": "./dist/web-authn-recover.js",
-    "./enroll": "./dist/web-authn-enroll.js",
-    "./connect": "./dist/web-authn-connect.js"
+    "./registration": "./dist/web-authn-registration.js",
+    "./recovery": "./dist/web-authn-recovery.js",
+    "./enrollment-provider": "./dist/web-authn-enrollment-provider.js",
+    "./enrollment-consumer": "./dist/web-authn-enrollment-consumer.js",
+    "./rtc/enrollment-provider": "./dist/web-authn-rtc-enrollment-provider.js",
+    "./rtc/enrollment-consumer": "./dist/web-authn-rtc-enrollment-consumer.js"
   },
   "repository": {
     "type": "git",
