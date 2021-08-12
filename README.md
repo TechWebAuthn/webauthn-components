@@ -11,7 +11,7 @@ _Used for connecting with a previously registered account_
 ### **Properties**
 
 <details>
-<summary><code>⚙️ assertionStartUrl</code></summary>
+<summary><b>⚙️ assertionStartUrl</b></summary>
 
 _Endpoint for retrieving details and challenge from the server_
 
@@ -20,7 +20,7 @@ _Endpoint for retrieving details and challenge from the server_
 </details>
 
 <details>
-<summary><code>⚙️ assertionFinishUrl</code></summary>
+<summary><b>⚙️ assertionFinishUrl</b></summary>
 
 _Endpoint for completing the assertion process and sending the challenge result to the server_
 
@@ -29,17 +29,17 @@ _Endpoint for completing the assertion process and sending the challenge result 
 </details>
 
 <details>
-<summary><code>✏️ buttonText</code></summary>
+<summary><b>✏️ buttonText</b></summary>
 
 _The text displayed on the login button_
 
 - type: `String`
 - default: `Login`
-- refflected attribute: `button-text`
+- reflected attribute: `button-text`
 </details>
 
 <details>
-<summary><code>⚙️ fetchOptions</code></summary>
+<summary><b>⚙️ fetchOptions</b></summary>
 
 _Fetch options used for all request within this component_
 
@@ -59,43 +59,43 @@ _Fetch options used for all request within this component_
 </details>
 
 <details>
-<summary><code>⚙️ inputType</code></summary>
+<summary><b>⚙️ inputType</b></summary>
 
 _The type of input to use for the username_
 
 - type: `String`
 - default: `text` (any valid HTML input type)
-- refflected attribute: `input-type`
+- reflected attribute: `input-type`
 </details>
 
 <details>
-<summary><code>⚙️ inputName</code></summary>
+<summary><b>⚙️ inputName</b></summary>
 
 _The name of the input to use for the username_
 
 - type: `String`
 - default: `username`
-- refflected attribute: `input-name`
+- reflected attribute: `input-name`
 </details>
 
 <details>
-<summary><code>✏️ label</code></summary>
+<summary><b>✏️ label</b></summary>
 
 _Username label content_
 
 - type: `String`
 - default: `Username`
-- refflected attribute: `label`
+- reflected attribute: `label`
 </details>
 
 <details>
-<summary><code>⚙️ noUsername</code></summary>
+<summary><b>⚙️ noUsername</b></summary>
 
 _Should login be done without a username_
 
 - type: `Boolean`
 - default: `false`
-- refflected attribute: `no-username`
+- reflected attribute: `no-username`
 </details>
 
 ### **Usage**
