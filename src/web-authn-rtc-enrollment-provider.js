@@ -108,7 +108,7 @@ export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
     const formData = new FormData(event.target);
     const code = formData.get(this.inputName).toUpperCase();
 
-    this.dispatchEvent(new CustomEvent("enrollment-requested", { detail: { code } }));
+    this.dispatchEvent(new CustomEvent("enrollment-started"));
 
     this.RTC?.close();
 

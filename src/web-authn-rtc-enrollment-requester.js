@@ -285,7 +285,7 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
     event.preventDefault();
     if (!this.registrationAddToken) return;
 
-    this.dispatchEvent(new CustomEvent("enrollment-requested"));
+    this.dispatchEvent(new CustomEvent("enrollment-started"));
 
     try {
       const startResponse = await fetch(this.enrollmentStartUrl, {
@@ -332,6 +332,8 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
       this.dispatchEvent(
         new CustomEvent("enrollment-error", { detail: { message: error.message } })
       );
+      this.RTC?.sendData("action::cancel");
+      this.RTC?.close();
     }
   }
 }
