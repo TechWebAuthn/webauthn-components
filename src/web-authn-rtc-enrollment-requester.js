@@ -1,3 +1,5 @@
+import { WebRTCConnection, WebSocketConnection } from "./utils/rtc";
+
 const CACHE = {};
 
 export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
@@ -18,6 +20,9 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
         "Content-Type": "application/json",
       },
     };
+    this.webSocketSignalingEndpoint = "/api/socket";
+    this.RTC = null;
+    this.rtcIceServers = [{ urls: "stun:stun.services.mozilla.com" }];
   }
 
   static get observedAttributes() {
@@ -216,6 +221,20 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
   _onRequestFormSubmit(event) {
     event.preventDefault();
     this.dispatchEvent(new CustomEvent("enrollment-code-requested"));
+
+    this.RTC?.close();
+    this.RTC = new WebRTCConnection(new WebSocketConnection(this.webSocketSignalingEndpoint), {
+      iceServers: this.rtcIceServers,
+    });
+    this.RTC.createDataChannel();
+    this.RTC.oncode = (code) => {
+      this.peerCode = code;
+    };
+    this.RTC.onuser = async (user) => {
+      await this.RTC.createOffer();
+      this.agreementText = `I understand that this device will be added to ${user}'s account`;
+      this.dispatchEvent(new CustomEvent("enrollment-provider-connected", { detail: user }));
+    };
   }
 
   _onEnrollmentProviderConnected() {
@@ -228,6 +247,9 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
   _onConfirmFormReset(event) {
     event.preventDefault();
     this.dispatchEvent(new CustomEvent("enrollment-canceled"));
+
+    this.RTC.sendData("action::cancel");
+    this.RTC?.close();
     this.peerCode = "";
     this.root.querySelector("#request-form").hidden = false;
     this.root.querySelector("#request-form").part.remove("hidden");
@@ -237,9 +259,21 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
 
   _onAcceptUserAgreement(event) {
     if (event.target.checked) {
+      this.RTC?.sendData("action::add");
       this.dispatchEvent(new CustomEvent("enrollment-agreement-accepted"));
     } else {
       this.dispatchEvent(new CustomEvent("enrollment-agreement-declined"));
+    }
+
+    if (!this.RTC.ondatachannelmessage) {
+      this.RTC.ondatachannelmessage = (event) => {
+        const [type, data] = event.data.split("::");
+
+        if (type === "token") {
+          this.registrationAddToken = data;
+        }
+      };
+      this.RTC.listenForData();
     }
   }
 
@@ -290,7 +324,8 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
       }
 
       const jsonFinishResponse = await finishResponse.json();
-      this.dispatchEvent(new CustomEvent("enrollment-finished", { detail: jsonFinishResponse }));
+      this.dispatchEvent(new CustomEvent("enrollment-completed", { detail: jsonFinishResponse }));
+      this.RTC.dataChannel.send("event::complete");
       this.registrationAddToken = "";
       this.root.querySelector("#confirm-form").reset();
     } catch (error) {

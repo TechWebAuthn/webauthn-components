@@ -20,6 +20,24 @@ _Endpoint for retrieving details and challenge from the server_
 </details>
 
 <details>
+<summary><b>⚙️ publicKeyCredentialRequestOptionsDecoder</b></summary>
+
+_PublicKeyCredentialRequestOptions decoding function (i.e. Base64URLString to ArrayBuffer)_
+
+- type: `Function`
+- default: `decodePublicKeyCredentialRequestOptions` from `utils/parse`
+</details>
+
+<details>
+<summary><b>⚙️ loginCredentialEncoder</b></summary>
+
+_Credential encoding function (i.e. ArrayBuffer to Base64URLString)_
+
+- type: `Function`
+- default: `encodeLoginCredential` from `utils/parse`
+</details>
+
+<details>
 <summary><b>⚙️ assertionFinishUrl</b></summary>
 
 _Endpoint for completing the assertion process and sending the challenge result to the server_

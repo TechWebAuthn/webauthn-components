@@ -13,7 +13,9 @@
     "./enrollment-provider": "./dist/web-authn-enrollment-provider.js",
     "./enrollment-consumer": "./dist/web-authn-enrollment-consumer.js",
     "./rtc/enrollment-provider": "./dist/web-authn-rtc-enrollment-provider.js",
-    "./rtc/enrollment-consumer": "./dist/web-authn-rtc-enrollment-consumer.js"
+    "./rtc/enrollment-consumer": "./dist/web-authn-rtc-enrollment-consumer.js",
+    "./utils/parse": "./dist/utils/parse.js",
+    "./utils/rtc": "./dist/utils/rtc.js"
   },
   "repository": {
     "type": "git",

@@ -1,9 +1,11 @@
+import { WebRTCConnection, WebSocketConnection } from "./utils/rtc";
+
 export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
   constructor() {
     super();
     this.root = this.attachShadow({ mode: "open" });
     this._onFormSubmitListener = this._onFormSubmit.bind(this);
-    this._onRequestEnrollmentListener = this._onRequestEnrollment.bind(this);
+    this._onRequestedEnrollmentListener = this._onRequestedEnrollment.bind(this);
     this.enrollmentTokenUrl = "/api/registration/add";
     this.fetchOptions = {
       method: "GET",
@@ -12,6 +14,9 @@ export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
         "Content-Type": "application/json",
       },
     };
+    this.webSocketSignalingEndpoint = "/api/socket";
+    this.RTC = null;
+    this.rtcIceServers = [{ urls: "stun:stun.services.mozilla.com" }];
   }
 
   static get observedAttributes() {
@@ -21,12 +26,12 @@ export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
   connectedCallback() {
     this.update();
     this.root.querySelector("form").addEventListener("submit", this._onFormSubmitListener);
-    this.addEventListener("enrollment-request", this._onRequestEnrollmentListener);
+    this.addEventListener("enrollment-requested", this._onRequestedEnrollmentListener);
   }
 
   disconnectedCallback() {
     this.root.querySelector("form").removeEventListener("submit", this._onFormSubmitListener);
-    this.removeEventListener("enrollment-request", this._onRequestEnrollmentListener);
+    this.removeEventListener("enrollment-requested", this._onRequestedEnrollmentListener);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -101,12 +106,36 @@ export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    const code = formData.get(this.inputName);
+    const code = formData.get(this.inputName).toUpperCase();
 
     this.dispatchEvent(new CustomEvent("enrollment-requested", { detail: { code } }));
+
+    this.RTC?.close();
+
+    this.RTC = new WebRTCConnection(new WebSocketConnection(this.webSocketSignalingEndpoint), {
+      iceServers: this.rtcIceServers,
+    });
+    this.RTC.listenForData();
+    this.RTC.signaling.send({ code });
+
+    this.RTC.ondatachannelmessage = async (event) => {
+      const [type, data] = event.data.split("::");
+
+      if (type === "action" && data === "add") {
+        this.dispatchEvent(new CustomEvent("enrollment-requested"));
+      }
+
+      if (type === "action" && data === "cancel") {
+        this.dispatchEvent(new CustomEvent("enrollment-canceled"));
+      }
+
+      if (type === "event" && data === "complete") {
+        this.dispatchEvent(new CustomEvent("enrollment-completed"));
+      }
+    };
   }
 
-  async _onRequestEnrollment() {
+  async _onRequestedEnrollment() {
     try {
       const response = await fetch(this.enrollmentTokenUrl, this.fetchOptions);
 
@@ -116,6 +145,7 @@ export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
         throw new Error("Could not successfuly retrieve enrollment token");
       }
 
+      this.RTC.sendData(`token::${jsonResponse.registrationAddToken}`);
       this.dispatchEvent(new CustomEvent("enrollment-provided", { detail: jsonResponse }));
     } catch (error) {
       this.dispatchEvent(
