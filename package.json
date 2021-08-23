@@ -11,9 +11,9 @@
     "./registration": "./dist/web-authn-registration.js",
     "./recovery": "./dist/web-authn-recovery.js",
     "./enrollment-provider": "./dist/web-authn-enrollment-provider.js",
-    "./enrollment-consumer": "./dist/web-authn-enrollment-consumer.js",
+    "./enrollment-requester": "./dist/web-authn-enrollment-requester.js",
     "./rtc/enrollment-provider": "./dist/web-authn-rtc-enrollment-provider.js",
-    "./rtc/enrollment-consumer": "./dist/web-authn-rtc-enrollment-consumer.js",
+    "./rtc/enrollment-requester": "./dist/web-authn-rtc-enrollment-requester.js",
     "./utils/parse": "./dist/utils/parse.js",
     "./utils/rtc": "./dist/utils/rtc.js"
   },
