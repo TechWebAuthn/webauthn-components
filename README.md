@@ -1,9 +1,24 @@
 # Web Components for the Web Authentication API
 
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://www.webcomponents.org/element/TechWebAuthn/web-authn-components)
+
 A collection of Web Components that make the Web Authentication API a little easier to use.
+
+## Installation
+
+```bash
+npm i web-authn-components
+```
+
+## Components
 
 - [web-authn-login](#web-authn-login)
 - [web-authn-registration](#web-authn-registration)
+- web-authn-recovery
+- web-authn-enrollment-requester
+- web-authn-enrollment-provider
+- web-authn-rtc-enrollment-requester
+- web-authn-rtc-enrollment-provider
 
 ## **web-authn-login**
 
@@ -163,8 +178,19 @@ with default values
 import "web-authn-components/login";
 
 /* html */
-<web-authn-login></web-authn-login>;
+<web-authn-login></web-authn-login>
 ```
+
+<!--
+```
+<custom-element-demo>
+  <template>
+    <script src="./src/web-authn-login.js"></script>
+    <web-authn-login></web-authn-login>
+  </template>
+</custom-element-demo>
+```
+-->
 
 with custom values
 
@@ -172,7 +198,7 @@ with custom values
 import "web-authn-components/login";
 
 /* html */
-<web-authn-login label="Email" input-type="email" input-name="email"></web-authn-login>;
+<web-authn-login label="Email" input-type="email" input-name="email"></web-authn-login>
 ```
 
 -----------------------------
@@ -335,8 +361,19 @@ with default values
 import "web-authn-components/registration";
 
 /* html */
-<web-authn-registration></web-authn-registration>;
+<web-authn-registration></web-authn-registration>
 ```
+
+<!--
+```
+<custom-element-demo>
+  <template>
+    <script src="./src/web-authn-registration.js"></script>
+    <web-authn-registration></web-authn-registration>
+  </template>
+</custom-element-demo>
+```
+-->
 
 with custom values
 
@@ -344,8 +381,16 @@ with custom values
 import "web-authn-components/registration";
 
 /* html */
-<web-authn-registration label="Email" input-type="email" input-name="email"></web-authn-registration>;
+<web-authn-registration label="Email" input-type="email" input-name="email"></web-authn-registration>
 
 const registrationComponent = document.querySelector('web-authn-registration');
 registrationComponent.fetchOptions = { ...registrationComponent.fetchOptions, cache: 'no-cache' };
 ```
+
+## License
+
+MIT License
+
+> A short and simple permissive license with conditions only requiring preservation of copyright and license notices. Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+
+Refer to the [LICENSE](LICENSE) file for the complete text.
