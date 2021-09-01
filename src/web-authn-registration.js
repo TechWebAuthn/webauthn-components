@@ -139,7 +139,7 @@ export class WebAuthnRegistration extends HTMLElement {
       return CACHE.publicKeyCredentialCreateOptionsDecoder;
     }
 
-    const { decodePublicKeyCredentialCreateOptions } = await import("./utils/parse");
+    const { decodePublicKeyCredentialCreateOptions } = await import("./utils/parse.js");
     CACHE.publicKeyCredentialCreateOptionsDecoder = decodePublicKeyCredentialCreateOptions;
 
     return CACHE.publicKeyCredentialCreateOptionsDecoder;
@@ -154,7 +154,7 @@ export class WebAuthnRegistration extends HTMLElement {
       return CACHE.registerCredentialEncoder;
     }
 
-    const { encodeRegisterCredential } = await import("./utils/parse");
+    const { encodeRegisterCredential } = await import("./utils/parse.js");
     CACHE.registerCredentialEncoder = encodeRegisterCredential;
 
     return CACHE.registerCredentialEncoder;
@@ -166,8 +166,7 @@ export class WebAuthnRegistration extends HTMLElement {
     this.dispatchEvent(new CustomEvent("registration-started"));
 
     const formData = new FormData(event.target);
-    const input = this.root.querySelector("input");
-    const username = formData.get(input.name);
+    const username = formData.get(this.inputName);
 
     try {
       const startResponse = await fetch(this.registrationStartUrl, {

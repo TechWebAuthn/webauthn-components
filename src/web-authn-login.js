@@ -139,7 +139,7 @@ export class WebAuthnLogin extends HTMLElement {
       return CACHE.publicKeyCredentialRequestOptionsDecoder;
     }
 
-    const { decodePublicKeyCredentialRequestOptions } = await import("./utils/parse");
+    const { decodePublicKeyCredentialRequestOptions } = await import("./utils/parse.js");
     CACHE.publicKeyCredentialRequestOptionsDecoder = decodePublicKeyCredentialRequestOptions;
 
     return CACHE.publicKeyCredentialRequestOptionsDecoder;
@@ -154,7 +154,7 @@ export class WebAuthnLogin extends HTMLElement {
       return CACHE.loginCredentialEncoder;
     }
 
-    const { encodeLoginCredential } = await import("./utils/parse");
+    const { encodeLoginCredential } = await import("./utils/parse.js");
     CACHE.loginCredentialEncoder = encodeLoginCredential;
 
     return CACHE.loginCredentialEncoder;
@@ -166,7 +166,7 @@ export class WebAuthnLogin extends HTMLElement {
     this.dispatchEvent(new CustomEvent("login-started"));
 
     const formData = new FormData(event.target);
-    const username = formData.get("username");
+    const username = formData.get(this.inputName);
 
     try {
       const startResponse = await fetch(this.assertionStartUrl, {

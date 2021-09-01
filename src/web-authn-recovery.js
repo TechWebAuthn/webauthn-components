@@ -106,7 +106,7 @@ export class WebAuthnRecovery extends HTMLElement {
       return CACHE.publicKeyCredentialCreateOptionsDecoder;
     }
 
-    const { decodePublicKeyCredentialCreateOptions } = await import("./utils/parse");
+    const { decodePublicKeyCredentialCreateOptions } = await import("./utils/parse.js");
     CACHE.publicKeyCredentialCreateOptionsDecoder = decodePublicKeyCredentialCreateOptions;
 
     return CACHE.publicKeyCredentialCreateOptionsDecoder;
@@ -121,7 +121,7 @@ export class WebAuthnRecovery extends HTMLElement {
       return CACHE.registerCredentialEncoder;
     }
 
-    const { encodeRegisterCredential } = await import("./utils/parse");
+    const { encodeRegisterCredential } = await import("./utils/parse.js");
     CACHE.registerCredentialEncoder = encodeRegisterCredential;
 
     return CACHE.registerCredentialEncoder;
@@ -133,8 +133,7 @@ export class WebAuthnRecovery extends HTMLElement {
     this.dispatchEvent(new CustomEvent("recovery-started"));
 
     const formData = new FormData(event.target);
-    const input = this.root.querySelector("input");
-    const recoveryToken = formData.get(input.name);
+    const recoveryToken = formData.get(this.inputName);
 
     try {
       const startResponse = await fetch(this.recoveryStartUrl, {
