@@ -1,6 +1,6 @@
 {
   "name": "web-authn-components",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Web Components that make the Web Authentication API a little easier to use.",
   "type": "module",
   "scripts": {
