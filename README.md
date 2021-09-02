@@ -178,19 +178,8 @@ with default values
 import "web-authn-components/login";
 
 /* html */
-<web-authn-login></web-authn-login>
+<web-authn-login></web-authn-login>;
 ```
-
-<!--
-```
-<custom-element-demo>
-  <template>
-    <script src="./src/web-authn-login.js"></script>
-    <web-authn-login></web-authn-login>
-  </template>
-</custom-element-demo>
-```
--->
 
 with custom values
 
@@ -198,10 +187,10 @@ with custom values
 import "web-authn-components/login";
 
 /* html */
-<web-authn-login label="Email" input-type="email" input-name="email"></web-authn-login>
+<web-authn-login label="Email" input-type="email" input-name="email"></web-authn-login>;
 ```
 
------------------------------
+---
 
 ## **web-authn-registration**
 
@@ -361,19 +350,8 @@ with default values
 import "web-authn-components/registration";
 
 /* html */
-<web-authn-registration></web-authn-registration>
+<web-authn-registration></web-authn-registration>;
 ```
-
-<!--
-```
-<custom-element-demo>
-  <template>
-    <script src="./src/web-authn-registration.js"></script>
-    <web-authn-registration></web-authn-registration>
-  </template>
-</custom-element-demo>
-```
--->
 
 with custom values
 
@@ -381,10 +359,14 @@ with custom values
 import "web-authn-components/registration";
 
 /* html */
-<web-authn-registration label="Email" input-type="email" input-name="email"></web-authn-registration>
+<web-authn-registration
+  label="Email"
+  input-type="email"
+  input-name="email"
+></web-authn-registration>;
 
-const registrationComponent = document.querySelector('web-authn-registration');
-registrationComponent.fetchOptions = { ...registrationComponent.fetchOptions, cache: 'no-cache' };
+const registrationComponent = document.querySelector("web-authn-registration");
+registrationComponent.fetchOptions = { ...registrationComponent.fetchOptions, cache: "no-cache" };
 ```
 
 ## License

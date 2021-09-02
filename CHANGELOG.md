@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.3] - 2021-09-02
+
+### Changed
+
+- Remove live example for webcomponents.org (not usable on domain)
+- Update `terser` devDependency to `v5.7.2`
+
+### Fixed
+
+- Fix typo for event names: 'canceled' -> 'cancelled'
+- Handle difference between user cancellation and form clear after success on the `web-authn-rtc-enrollment-requester` component
+
 ## [0.2.2] - 2021-09-01
 
 ### Changed
@@ -27,6 +39,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation in the README for `web-authn-login` and `web-authn-registration` components
 - LICENSE and README update for webcomponents.org
 
-[unreleased]: https://github.com/TechWebAuthn/web-authn-components/compare/v0.2.2...HEAD
-[0.2.2]: https://github.com/TechWebAuthn/web-authn-components/compare/v0.2.1...v0.2.2
-[0.2.1]: https://github.com/TechWebAuthn/web-authn-components/releases/tag/v0.2.1
+---
+
+## Diffs
+
+- [unreleased] - https://github.com/TechWebAuthn/web-authn-components/compare/v0.2.3...HEAD
+- [0.2.3] - https://github.com/TechWebAuthn/web-authn-components/compare/v0.2.3...v0.2.2
+- [0.2.2] - https://github.com/TechWebAuthn/web-authn-components/compare/v0.2.1...v0.2.2
+- [0.2.1] - https://github.com/TechWebAuthn/web-authn-components/releases/tag/v0.2.1

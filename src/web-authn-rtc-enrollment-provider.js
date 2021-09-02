@@ -126,7 +126,7 @@ export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
       }
 
       if (type === "action" && data === "cancel") {
-        this.dispatchEvent(new CustomEvent("enrollment-canceled"));
+        this.dispatchEvent(new CustomEvent("enrollment-cancelled"));
       }
 
       if (type === "event" && data === "complete") {

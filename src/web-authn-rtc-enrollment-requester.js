@@ -10,7 +10,9 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
     this._onConfirmFormSubmitListener = this._onConfirmFormSubmit.bind(this);
     this._onConfirmFormResetListener = this._onConfirmFormReset.bind(this);
     this._onAcceptUserAgreementListener = this._onAcceptUserAgreement.bind(this);
+    this._onResetButtonClickListener = this._onResetButtonClick.bind(this);
     this._onEnrollmentProviderConnectedListener = this._onEnrollmentProviderConnected.bind(this);
+    this._userCancelled = false;
     this.enrollmentStartUrl = "/api/registration/start";
     this.enrollmentFinishUrl = "/api/registration/finish";
     this.fetchOptions = {
@@ -48,6 +50,9 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
       .querySelector("#confirm-form")
       .addEventListener("reset", this._onConfirmFormResetListener);
     this.root
+      .querySelector("button[type=reset]")
+      .addEventListener("click", this._onResetButtonClickListener);
+    this.root
       .querySelector("#user-agreement")
       .addEventListener("change", this._onAcceptUserAgreementListener);
     this.addEventListener(
@@ -66,6 +71,9 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
     this.root
       .querySelector("#confirm-form")
       .removeEventListener("reset", this._onConfirmFormResetListener);
+    this.root
+      .querySelector("button[type=reset]")
+      .removeEventListener("click", this._onResetButtonClickListener);
     this.root
       .querySelector("#user-agreement")
       .removeEventListener("change", this._onAcceptUserAgreementListener);
@@ -244,11 +252,19 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
     this.root.querySelector("#confirm-form").part.remove("hidden");
   }
 
+  _onResetButtonClick() {
+    this._userCancelled = true;
+  }
+
   _onConfirmFormReset(event) {
     event.preventDefault();
-    this.dispatchEvent(new CustomEvent("enrollment-canceled"));
 
-    this.RTC.sendData("action::cancel");
+    if (this._userCancelled) {
+      this.dispatchEvent(new CustomEvent("enrollment-cancelled"));
+      this.RTC?.sendData("action::cancel");
+      this._userCancelled = false;
+    }
+
     this.RTC?.close();
     this.peerCode = "";
     this.root.querySelector("#request-form").hidden = false;
@@ -278,7 +294,9 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
   }
 
   _onRegistrationAddToken() {
-    this.dispatchEvent(new CustomEvent("enrollment-registration-token-received"));
+    if (this.registrationAddToken) {
+      this.dispatchEvent(new CustomEvent("enrollment-registration-token-received"));
+    }
   }
 
   async _onConfirmFormSubmit(event) {
