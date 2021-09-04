@@ -11,8 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Emit error and prevent zombie credentials for unsupported platforms
+- Emit error on unsupported platforms
 - Added `rollup` bundler
+
+### Fixed
+
+- Prevent zombie credentials on unsupported platforms
 
 ## [0.2.3] - 2021-09-02
 
