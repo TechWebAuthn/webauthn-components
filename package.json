@@ -1,10 +1,11 @@
 {
   "name": "web-authn-components",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Web Components that make the Web Authentication API a little easier to use.",
   "type": "module",
   "scripts": {
-    "prepublishOnly": "node ./prepare-release.js"
+    "build": "rollup -c",
+    "prepublishOnly": "npm run build"
   },
   "exports": {
     "./login": "./dist/web-authn-login.js",
@@ -33,6 +34,8 @@
   },
   "homepage": "https://github.com/TechWebAuthn/web-authn-components#readme",
   "devDependencies": {
+    "rollup": "^2.56.3",
+    "rollup-plugin-terser": "^7.0.2",
     "terser": "^5.7.2"
   }
 }
