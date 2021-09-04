@@ -128,18 +128,18 @@ export class WebAuthnRecovery extends HTMLElement {
   }
 
   async _onFormSubmit(event) {
-    event.preventDefault();
-
-    if (!window.PublicKeyCredential) {
-      throw new Error("Web Authentication is not supported on this platform");
-    }
-
-    this.dispatchEvent(new CustomEvent("recovery-started"));
-
-    const formData = new FormData(event.target);
-    const recoveryToken = formData.get(this.inputName);
-
     try {
+      event.preventDefault();
+
+      if (!window.PublicKeyCredential) {
+        throw new Error("Web Authentication is not supported on this platform");
+      }
+
+      this.dispatchEvent(new CustomEvent("recovery-started"));
+
+      const formData = new FormData(event.target);
+      const recoveryToken = formData.get(this.inputName);
+
       const startResponse = await fetch(this.recoveryStartUrl, {
         ...this.fetchOptions,
         body: JSON.stringify({ recoveryToken }),

@@ -53,11 +53,11 @@ export class WebAuthnEnrollmentProvider extends HTMLElement {
   }
 
   async _onFormSubmit(event) {
-    event.preventDefault();
-
-    this.dispatchEvent(new CustomEvent("enrollment-requested"));
-
     try {
+      event.preventDefault();
+
+      this.dispatchEvent(new CustomEvent("enrollment-requested"));
+
       const response = await fetch(this.enrollmentTokenUrl, this.fetchOptions);
 
       const jsonResponse = await response.json();

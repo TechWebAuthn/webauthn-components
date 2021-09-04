@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Prevent zombie credentials on unsupported platforms
+- Wrap all critical code in try...catch blocks
 
 ## [0.2.3] - 2021-09-02
 

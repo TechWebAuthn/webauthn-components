@@ -300,17 +300,17 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
   }
 
   async _onConfirmFormSubmit(event) {
-    event.preventDefault();
-
-    if (!window.PublicKeyCredential) {
-      throw new Error("Web Authentication is not supported on this platform");
-    }
-
-    if (!this.registrationAddToken) return;
-
-    this.dispatchEvent(new CustomEvent("enrollment-started"));
-
     try {
+      event.preventDefault();
+
+      if (!window.PublicKeyCredential) {
+        throw new Error("Web Authentication is not supported on this platform");
+      }
+
+      if (!this.registrationAddToken) return;
+
+      this.dispatchEvent(new CustomEvent("enrollment-started"));
+
       const startResponse = await fetch(this.enrollmentStartUrl, {
         ...this.fetchOptions,
         body: JSON.stringify({ registrationAddToken: this.registrationAddToken }),
