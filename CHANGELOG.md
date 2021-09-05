@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Add unit tests
+
 ## [0.2.4] - 2021-09-05
 
 ### Changed
 
 - Emit error on unsupported platforms
 - Added `rollup` bundler
+- Use `window.customElements` instead of just `customElements`
 
 ### Fixed
 

@@ -184,4 +184,4 @@ export class WebAuthnRecovery extends HTMLElement {
   }
 }
 
-customElements.define("web-authn-recovery", WebAuthnRecovery);
+window.customElements.define("web-authn-recovery", WebAuthnRecovery);

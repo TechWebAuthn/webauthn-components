@@ -212,4 +212,4 @@ export class WebAuthnLogin extends HTMLElement {
   }
 }
 
-customElements.define("web-authn-login", WebAuthnLogin);
+window.customElements.define("web-authn-login", WebAuthnLogin);

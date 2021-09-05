@@ -219,4 +219,4 @@ export class WebAuthnRegistration extends HTMLElement {
   }
 }
 
-customElements.define("web-authn-registration", WebAuthnRegistration);
+window.customElements.define("web-authn-registration", WebAuthnRegistration);

@@ -157,4 +157,4 @@ export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
   }
 }
 
-customElements.define("web-authn-rtc-enrollment-provider", WebAuthnRTCEnrollmentProvider);
+window.customElements.define("web-authn-rtc-enrollment-provider", WebAuthnRTCEnrollmentProvider);
