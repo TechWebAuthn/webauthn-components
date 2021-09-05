@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "rollup -c",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm test && npm run build",
     "test": "ava"
   },
   "exports": {
