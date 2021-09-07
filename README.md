@@ -1,7 +1,5 @@
 # Web Components for the Web Authentication API
 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://www.webcomponents.org/element/TechWebAuthn/webauthn-components)
-
 A collection of Web Components that make the Web Authentication API a little easier to use.
 
 ## Installation
