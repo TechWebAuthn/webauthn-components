@@ -1,26 +1,26 @@
 # Web Components for the Web Authentication API
 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://www.webcomponents.org/element/TechWebAuthn/web-authn-components)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://www.webcomponents.org/element/TechWebAuthn/webauthn-components)
 
 A collection of Web Components that make the Web Authentication API a little easier to use.
 
 ## Installation
 
 ```bash
-npm i web-authn-components
+npm i webauthn-components
 ```
 
 ## Components
 
-- [web-authn-login](#web-authn-login)
-- [web-authn-registration](#web-authn-registration)
-- web-authn-recovery
-- web-authn-enrollment-requester
-- web-authn-enrollment-provider
-- web-authn-rtc-enrollment-requester
-- web-authn-rtc-enrollment-provider
+- [webauthn-login](#webauthn-login)
+- [webauthn-registration](#webauthn-registration)
+- webauthn-recovery
+- webauthn-enrollment-requester
+- webauthn-enrollment-provider
+- webauthn-rtc-enrollment-requester
+- webauthn-rtc-enrollment-provider
 
-## **web-authn-login**
+## **webauthn-login**
 
 _Used for connecting with a previously registered account_
 
@@ -175,24 +175,24 @@ _Emitted when the login process is interrupted by an error_
 with default values
 
 ```js
-import "web-authn-components/login";
+import "webauthn-components/login";
 
 /* html */
-<web-authn-login></web-authn-login>;
+<webauthn-login></webauthn-login>;
 ```
 
 with custom values
 
 ```js
-import "web-authn-components/login";
+import "webauthn-components/login";
 
 /* html */
-<web-authn-login label="Email" input-type="email" input-name="email"></web-authn-login>;
+<webauthn-login label="Email" input-type="email" input-name="email"></webauthn-login>;
 ```
 
 ---
 
-## **web-authn-registration**
+## **webauthn-registration**
 
 _Used for creating a new account_
 
@@ -347,25 +347,21 @@ _Emitted when the registration process is interrupted by an error_
 with default values
 
 ```js
-import "web-authn-components/registration";
+import "webauthn-components/registration";
 
 /* html */
-<web-authn-registration></web-authn-registration>;
+<webauthn-registration></webauthn-registration>;
 ```
 
 with custom values
 
 ```js
-import "web-authn-components/registration";
+import "webauthn-components/registration";
 
 /* html */
-<web-authn-registration
-  label="Email"
-  input-type="email"
-  input-name="email"
-></web-authn-registration>;
+<webauthn-registration label="Email" input-type="email" input-name="email"></webauthn-registration>;
 
-const registrationComponent = document.querySelector("web-authn-registration");
+const registrationComponent = document.querySelector("webauthn-registration");
 registrationComponent.fetchOptions = { ...registrationComponent.fetchOptions, cache: "no-cache" };
 ```
 

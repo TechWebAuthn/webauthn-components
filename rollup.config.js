@@ -15,12 +15,12 @@ const defaults = {
 export default {
   ...defaults,
   input: [
-    "src/web-authn-login.js",
-    "src/web-authn-registration.js",
-    "src/web-authn-recovery.js",
-    "src/web-authn-enrollment-requester.js",
-    "src/web-authn-enrollment-provider.js",
-    "src/web-authn-rtc-enrollment-requester.js",
-    "src/web-authn-rtc-enrollment-provider.js",
+    "src/webauthn-login.js",
+    "src/webauthn-registration.js",
+    "src/webauthn-recovery.js",
+    "src/webauthn-enrollment-requester.js",
+    "src/webauthn-enrollment-provider.js",
+    "src/webauthn-rtc-enrollment-requester.js",
+    "src/webauthn-rtc-enrollment-provider.js",
   ],
 };

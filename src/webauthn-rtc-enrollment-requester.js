@@ -361,4 +361,4 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
   }
 }
 
-window.customElements.define("web-authn-rtc-enrollment-requester", WebAuthnRTCEnrollmentRequester);
+window.customElements.define("webauthn-rtc-enrollment-requester", WebAuthnRTCEnrollmentRequester);

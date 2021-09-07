@@ -1,6 +1,6 @@
 {
-  "name": "web-authn-components",
-  "version": "0.2.5",
+  "name": "webauthn-components",
+  "version": "0.2.6",
   "description": "Web Components that make the Web Authentication API a little easier to use.",
   "type": "module",
   "scripts": {
@@ -9,19 +9,19 @@
     "test": "ava"
   },
   "exports": {
-    "./login": "./dist/web-authn-login.js",
-    "./registration": "./dist/web-authn-registration.js",
-    "./recovery": "./dist/web-authn-recovery.js",
-    "./enrollment-provider": "./dist/web-authn-enrollment-provider.js",
-    "./enrollment-requester": "./dist/web-authn-enrollment-requester.js",
-    "./rtc/enrollment-provider": "./dist/web-authn-rtc-enrollment-provider.js",
-    "./rtc/enrollment-requester": "./dist/web-authn-rtc-enrollment-requester.js",
+    "./login": "./dist/webauthn-login.js",
+    "./registration": "./dist/webauthn-registration.js",
+    "./recovery": "./dist/webauthn-recovery.js",
+    "./enrollment-provider": "./dist/webauthn-enrollment-provider.js",
+    "./enrollment-requester": "./dist/webauthn-enrollment-requester.js",
+    "./rtc/enrollment-provider": "./dist/webauthn-rtc-enrollment-provider.js",
+    "./rtc/enrollment-requester": "./dist/webauthn-rtc-enrollment-requester.js",
     "./utils/parse": "./dist/utils/parse.js",
     "./utils/rtc": "./dist/utils/rtc.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TechWebAuthn/web-authn-components.git"
+    "url": "git+https://github.com/TechWebAuthn/webauthn-components.git"
   },
   "keywords": [
     "web",
@@ -31,9 +31,9 @@
   "author": "Bogdan Arvinte",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TechWebAuthn/web-authn-components/issues"
+    "url": "https://github.com/TechWebAuthn/webauthn-components/issues"
   },
-  "homepage": "https://github.com/TechWebAuthn/web-authn-components#readme",
+  "homepage": "https://github.com/TechWebAuthn/webauthn-components#readme",
   "devDependencies": {
     "ava": "^3.15.0",
     "happy-dom": "^2.22.0",

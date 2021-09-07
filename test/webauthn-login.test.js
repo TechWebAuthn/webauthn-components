@@ -1,9 +1,9 @@
 import test from "ava";
-import "../src/web-authn-login.js";
+import "../src/webauthn-login.js";
 
 test.beforeEach((t) => {
   t.context = {
-    component: document.body.appendChild(document.createElement("web-authn-login")),
+    component: document.body.appendChild(document.createElement("webauthn-login")),
   };
 });
 

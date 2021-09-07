@@ -75,4 +75,4 @@ export class WebAuthnEnrollmentProvider extends HTMLElement {
   }
 }
 
-window.customElements.define("web-authn-enrollment-provider", WebAuthnEnrollmentProvider);
+window.customElements.define("webauthn-enrollment-provider", WebAuthnEnrollmentProvider);

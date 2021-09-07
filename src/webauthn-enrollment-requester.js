@@ -186,4 +186,4 @@ export class WebAuthnEnrollmentRequester extends HTMLElement {
   }
 }
 
-window.customElements.define("web-authn-enrollment-requester", WebAuthnEnrollmentRequester);
+window.customElements.define("webauthn-enrollment-requester", WebAuthnEnrollmentRequester);
