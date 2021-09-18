@@ -1,6 +1,11 @@
-import { Window } from "happy-dom";
+import { JSDOM } from "jsdom";
 
-global.window = new Window();
+const window = new JSDOM().window;
+window.PublicKeyCredential = () => {};
+
+global.window = window;
 global.document = window.document;
 global.HTMLElement = window.HTMLElement;
 global.Promise = window.Promise;
+global.CustomEvent = window.CustomEvent;
+global.FormData = window.FormData;

@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add unit tests
 
+## [0.2.7] - 2021-09-18
+
+### Fixed
+
+- Import `parse.js` at top to prevent interruption of user activated event on iOS (#1)
+
 ## [0.2.6] - 2021-09-07
 
 ### Changed
@@ -66,7 +72,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Diffs
 
-- [unreleased] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.6...HEAD
+- [unreleased] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.7...HEAD
+- [0.2.7] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.7...v0.2.6
 - [0.2.6] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.6...v0.2.5
 - [0.2.5] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.5...v0.2.3
 - [0.2.3] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.3...v0.2.2

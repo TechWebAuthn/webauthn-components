@@ -1,4 +1,4 @@
-const CACHE = {};
+import { encodeLoginCredential, decodePublicKeyCredentialRequestOptions } from "./utils/parse.js";
 
 export class WebAuthnLogin extends HTMLElement {
   constructor() {
@@ -131,33 +131,15 @@ export class WebAuthnLogin extends HTMLElement {
   }
 
   async _getPublicKeyCredentialRequestOptionsDecoder() {
-    if (typeof this.publicKeyCredentialRequestOptionsDecoder === "function") {
-      return this.publicKeyCredentialRequestOptionsDecoder;
-    }
-
-    if (typeof CACHE.publicKeyCredentialRequestOptionsDecoder === "function") {
-      return CACHE.publicKeyCredentialRequestOptionsDecoder;
-    }
-
-    const { decodePublicKeyCredentialRequestOptions } = await import("./utils/parse.js");
-    CACHE.publicKeyCredentialRequestOptionsDecoder = decodePublicKeyCredentialRequestOptions;
-
-    return CACHE.publicKeyCredentialRequestOptionsDecoder;
+    return typeof this.publicKeyCredentialRequestOptionsDecoder === "function"
+      ? this.publicKeyCredentialRequestOptionsDecoder
+      : decodePublicKeyCredentialRequestOptions;
   }
 
   async _getLoginCredentialEncoder() {
-    if (typeof this.loginCredentialEncoder === "function") {
-      return this.loginCredentialEncoder;
-    }
-
-    if (typeof CACHE.loginCredentialEncoder === "function") {
-      return CACHE.loginCredentialEncoder;
-    }
-
-    const { encodeLoginCredential } = await import("./utils/parse.js");
-    CACHE.loginCredentialEncoder = encodeLoginCredential;
-
-    return CACHE.loginCredentialEncoder;
+    return typeof this.loginCredentialEncoder === "function"
+      ? this.loginCredentialEncoder
+      : encodeLoginCredential;
   }
 
   async _onFormSubmit(event) {
@@ -184,20 +166,19 @@ export class WebAuthnLogin extends HTMLElement {
         throw new Error("Could not successfuly start login");
       }
 
-      const decodePublicKeyCredentialRequestOptions =
-        await this._getPublicKeyCredentialRequestOptionsDecoder();
+      const decoder = await this._getPublicKeyCredentialRequestOptionsDecoder();
 
       const credential = await navigator.credentials.get({
-        publicKey: decodePublicKeyCredentialRequestOptions(publicKeyCredentialRequestOptions),
+        publicKey: decoder(publicKeyCredentialRequestOptions),
       });
 
       this.dispatchEvent(new CustomEvent("login-retrieved"));
 
-      const encodeLoginCredential = await this._getLoginCredentialEncoder();
+      const encoder = await this._getLoginCredentialEncoder();
 
       const finishResponse = await fetch(this.assertionFinishUrl, {
         ...this.fetchOptions,
-        body: JSON.stringify({ assertionId, credential: encodeLoginCredential(credential) }),
+        body: JSON.stringify({ assertionId, credential: encoder(credential) }),
       });
 
       if (!finishResponse.ok) {

@@ -1,6 +1,5 @@
-import { WebRTCConnection, WebSocketConnection } from "./utils/rtc";
-
-const CACHE = {};
+import { decodePublicKeyCredentialCreateOptions, encodeRegisterCredential } from "./utils/parse.js";
+import { WebRTCConnection, WebSocketConnection } from "./utils/rtc.js";
 
 export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
   constructor() {
@@ -197,33 +196,15 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
   }
 
   async _getPublicKeyCredentialCreateOptionsDecoder() {
-    if (typeof this.publicKeyCredentialCreateOptionsDecoder === "function") {
-      return this.publicKeyCredentialCreateOptionsDecoder;
-    }
-
-    if (typeof CACHE.publicKeyCredentialCreateOptionsDecoder === "function") {
-      return CACHE.publicKeyCredentialCreateOptionsDecoder;
-    }
-
-    const { decodePublicKeyCredentialCreateOptions } = await import("./utils/parse.js");
-    CACHE.publicKeyCredentialCreateOptionsDecoder = decodePublicKeyCredentialCreateOptions;
-
-    return CACHE.publicKeyCredentialCreateOptionsDecoder;
+    return typeof this.publicKeyCredentialCreateOptionsDecoder === "function"
+      ? this.publicKeyCredentialCreateOptionsDecoder
+      : decodePublicKeyCredentialCreateOptions;
   }
 
   async _getRegisterCredentialEncoder() {
-    if (typeof this.registerCredentialEncoder === "function") {
-      return this.registerCredentialEncoder;
-    }
-
-    if (typeof CACHE.registerCredentialEncoder === "function") {
-      return CACHE.registerCredentialEncoder;
-    }
-
-    const { encodeRegisterCredential } = await import("./utils/parse.js");
-    CACHE.registerCredentialEncoder = encodeRegisterCredential;
-
-    return CACHE.registerCredentialEncoder;
+    return typeof this.registerCredentialEncoder === "function"
+      ? this.registerCredentialEncoder
+      : encodeRegisterCredential;
   }
 
   _onRequestFormSubmit(event) {
@@ -322,22 +303,21 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
         throw new Error("Could not successfuly start enrollment");
       }
 
-      const decodePublicKeyCredentialCreateOptions =
-        await this._getPublicKeyCredentialCreateOptionsDecoder();
+      const decoder = await this._getPublicKeyCredentialCreateOptionsDecoder();
 
       const credential = await navigator.credentials.create({
-        publicKey: decodePublicKeyCredentialCreateOptions(publicKeyCredentialCreationOptions),
+        publicKey: decoder(publicKeyCredentialCreationOptions),
       });
 
       this.dispatchEvent(new CustomEvent("enrollment-created"));
 
-      const encodeRegisterCredential = await this._getRegisterCredentialEncoder();
+      const encoder = await this._getRegisterCredentialEncoder();
 
       const finishResponse = await fetch(this.enrollmentFinishUrl, {
         ...this.fetchOptions,
         body: JSON.stringify({
           registrationId,
-          credential: encodeRegisterCredential(credential),
+          credential: encoder(credential),
           userAgent: window.navigator.userAgent,
         }),
       });

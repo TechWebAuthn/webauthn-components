@@ -1,4 +1,4 @@
-const CACHE = {};
+import { decodePublicKeyCredentialCreateOptions, encodeRegisterCredential } from "./utils/parse.js";
 
 export class WebAuthnEnrollmentRequester extends HTMLElement {
   constructor() {
@@ -98,33 +98,15 @@ export class WebAuthnEnrollmentRequester extends HTMLElement {
   }
 
   async _getPublicKeyCredentialCreateOptionsDecoder() {
-    if (typeof this.publicKeyCredentialCreateOptionsDecoder === "function") {
-      return this.publicKeyCredentialCreateOptionsDecoder;
-    }
-
-    if (typeof CACHE.publicKeyCredentialCreateOptionsDecoder === "function") {
-      return CACHE.publicKeyCredentialCreateOptionsDecoder;
-    }
-
-    const { decodePublicKeyCredentialCreateOptions } = await import("./utils/parse.js");
-    CACHE.publicKeyCredentialCreateOptionsDecoder = decodePublicKeyCredentialCreateOptions;
-
-    return CACHE.publicKeyCredentialCreateOptionsDecoder;
+    return typeof this.publicKeyCredentialCreateOptionsDecoder === "function"
+      ? this.publicKeyCredentialCreateOptionsDecoder
+      : decodePublicKeyCredentialCreateOptions;
   }
 
   async _getRegisterCredentialEncoder() {
-    if (typeof this.registerCredentialEncoder === "function") {
-      return this.registerCredentialEncoder;
-    }
-
-    if (typeof CACHE.registerCredentialEncoder === "function") {
-      return CACHE.registerCredentialEncoder;
-    }
-
-    const { encodeRegisterCredential } = await import("./utils/parse.js");
-    CACHE.registerCredentialEncoder = encodeRegisterCredential;
-
-    return CACHE.registerCredentialEncoder;
+    return typeof this.registerCredentialEncoder === "function"
+      ? this.registerCredentialEncoder
+      : encodeRegisterCredential;
   }
 
   async _onFormSubmit(event) {
@@ -152,22 +134,21 @@ export class WebAuthnEnrollmentRequester extends HTMLElement {
         throw new Error(status || "Could not successfuly start enrollment");
       }
 
-      const decodePublicKeyCredentialCreateOptions =
-        await this._getPublicKeyCredentialCreateOptionsDecoder();
+      const decoder = await this._getPublicKeyCredentialCreateOptionsDecoder();
 
       const credential = await navigator.credentials.create({
-        publicKey: decodePublicKeyCredentialCreateOptions(publicKeyCredentialCreationOptions),
+        publicKey: decoder(publicKeyCredentialCreationOptions),
       });
 
       this.dispatchEvent(new CustomEvent("enrollment-created"));
 
-      const encodeRegisterCredential = await this._getRegisterCredentialEncoder();
+      const encoder = await this._getRegisterCredentialEncoder();
 
       const finishResponse = await fetch(this.enrollmentFinishUrl, {
         ...this.fetchOptions,
         body: JSON.stringify({
           registrationId,
-          credential: encodeRegisterCredential(credential),
+          credential: encoder(credential),
           userAgent: window.navigator.userAgent,
         }),
       });

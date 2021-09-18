@@ -1,4 +1,4 @@
-import { WebRTCConnection, WebSocketConnection } from "./utils/rtc";
+import { WebRTCConnection, WebSocketConnection } from "./utils/rtc.js";
 
 export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
   constructor() {
