@@ -20,7 +20,8 @@ These components use CSS [`::part`](https://developer.mozilla.org/en-US/docs/Web
 - [webauthn-rtc-enrollment-requester](#webauthn-rtc-enrollment-requester)
 - [webauthn-rtc-enrollment-provider](#webauthn-rtc-enrollment-provider)
 
-## **webauthn-login**
+## **webauthn-login** 
+<sup>[Back to components list ☝](#components)</sup>
 
 _Used for connecting with a previously registered account_
 
@@ -235,6 +236,7 @@ webauthn-login::part(button) {...}
 ---
 
 ## **webauthn-registration**
+<sup>[Back to components list ☝](#components)</sup>
 
 _Used for creating a new account_
 
@@ -452,6 +454,7 @@ webauthn-registration::part(button) {...}
 ---
 
 ## **webauthn-recovery**
+<sup>[Back to components list ☝](#components)</sup>
 
 _Used for recovering access to an existing account_
 
@@ -659,6 +662,7 @@ webauthn-recovery::part(button) {...}
 ---
 
 ## **webauthn-enrollment-requester**
+<sup>[Back to components list ☝](#components)</sup>
 
 _Used for initiating the enrollment flow, which adds a new device to an existing account_
 
@@ -866,6 +870,7 @@ webauthn-enrollment-requester::part(button) {...}
 ---
 
 ## **webauthn-enrollment-provider**
+<sup>[Back to components list ☝](#components)</sup>
 
 _Used for generating the registration add token, required to add a new device to an existing account_
 
@@ -987,6 +992,7 @@ webauthn-enrollment-requester::part(button) {...}
 ---
 
 ## **webauthn-rtc-enrollment-requester**
+<sup>[Back to components list ☝](#components)</sup>
 
 _Used for initiating the enrollment flow using WebRTC_
 
@@ -1337,6 +1343,7 @@ webauthn-enrollment-requester::part(hidden) {...}
 
 
 ## **webauthn-rtc-enrollment-provider**
+<sup>[Back to components list ☝](#components)</sup>
 
 _Used for providing the registration add token in the enrollment flow using WebRTC_
 
