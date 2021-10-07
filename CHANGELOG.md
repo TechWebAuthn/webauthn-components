@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add unit tests
 
+## [0.2.8] - 2021-10-07
+
+### Changed
+
+- Add missing documentation and update existing one
+
 ## [0.2.7] - 2021-09-18
 
 ### Fixed
@@ -72,7 +78,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Diffs
 
-- [unreleased] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.7...HEAD
+- [unreleased] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.8...HEAD
+- [0.2.8] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.8...v0.2.7
 - [0.2.7] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.7...v0.2.6
 - [0.2.6] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.6...v0.2.5
 - [0.2.5] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.5...v0.2.3
