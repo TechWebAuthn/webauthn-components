@@ -18,7 +18,7 @@ export class WebSocketConnection {
   }
 
   listen(eventName, callback) {
-    this.ws.addEventListener(eventName, (event) => {
+    this.ws.addEventListener(eventName, event => {
       try {
         callback(event, JSON.parse(event.data));
       } catch (error) {
@@ -103,7 +103,7 @@ export class WebRTCConnection {
   }
 
   listenForData() {
-    this.peerConnection.addEventListener("datachannel", (event) => {
+    this.peerConnection.addEventListener("datachannel", event => {
       const { channel } = event;
       if (!this.dataChannel) this.dataChannel = channel;
       this._attachDataEventListeners();
@@ -170,11 +170,11 @@ export class WebRTCConnection {
   }
 
   _attachDataEventListeners() {
-    this.dataChannel.onopen = (event) => {
+    this.dataChannel.onopen = event => {
       this._onDataChannelOpen();
       this.ondatachannelopen?.(event);
     };
-    this.dataChannel.onmessage = (event) => {
+    this.dataChannel.onmessage = event => {
       this.ondatachannelmessage?.(event);
     };
   }

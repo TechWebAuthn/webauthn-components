@@ -10,7 +10,7 @@ export function base64UrlStringToUint8Array(base64UrlString) {
 
   const string = window.atob(base64String);
 
-  return Uint8Array.from(string, (c) => c.charCodeAt(0));
+  return Uint8Array.from(string, c => c.charCodeAt(0));
 }
 
 /**
@@ -77,7 +77,7 @@ export function decodePublicKeyCredentialCreateOptions(pubKeyCreateOptions) {
       id: base64UrlStringToUint8Array(pubKeyCreateOptions.user.id),
     },
     challenge: base64UrlStringToUint8Array(pubKeyCreateOptions.challenge),
-    excludeCredentials: (pubKeyCreateOptions.excludeCredentials || []).map((excred) => ({
+    excludeCredentials: (pubKeyCreateOptions.excludeCredentials || []).map(excred => ({
       ...excred,
       id: base64UrlStringToUint8Array(excred.id),
     })),
@@ -92,7 +92,7 @@ export function decodePublicKeyCredentialRequestOptions(pubKeyRequestOptions) {
   return {
     ...pubKeyRequestOptions,
     challenge: base64UrlStringToUint8Array(pubKeyRequestOptions.challenge),
-    allowCredentials: (pubKeyRequestOptions.allowCredentials || []).map((cred) => ({
+    allowCredentials: (pubKeyRequestOptions.allowCredentials || []).map(cred => ({
       ...cred,
       id: base64UrlStringToUint8Array(cred.id),
     })),

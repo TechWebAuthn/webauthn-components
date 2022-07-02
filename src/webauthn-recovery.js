@@ -54,14 +54,23 @@ export class WebAuthnRecovery extends HTMLElement {
   }
 
   update() {
-    if (!this.root.innerHTML) {
-      this.root.innerHTML = `
-        <form part="form">
-          <label part="label" for="authn-recovery-token">${this.label}</label>
-          <input part="input" id="authn-recovery-token" type="${this.inputType}" name="${this.inputName}" />
-          <button part="button" type="submit">${this.buttonText}</button>
-        </form>
-      `;
+    if (!this.root.querySelector("form")) {
+      const template = new DOMParser()
+        .parseFromString(
+          `
+            <template>
+              <form part="form">
+                <label part="label" for="webauthn-recovery-token">${this.label}</label>
+                <input part="input" id="webauthn-recovery-token" type="${this.inputType}" name="${this.inputName}" />
+                <button part="button" type="submit">${this.buttonText}</button>
+              </form>
+            </template>
+          `,
+          "text/html"
+        )
+        .querySelector("template");
+
+      this.root.replaceChildren(template.content.cloneNode(true));
     }
   }
 
@@ -127,8 +136,7 @@ export class WebAuthnRecovery extends HTMLElement {
         body: JSON.stringify({ recoveryToken }),
       });
 
-      const { status, registrationId, publicKeyCredentialCreationOptions } =
-        await startResponse.json();
+      const { status, registrationId, publicKeyCredentialCreationOptions } = await startResponse.json();
 
       if (!startResponse.ok) {
         throw new Error(status || "Could not successfuly start recovery");

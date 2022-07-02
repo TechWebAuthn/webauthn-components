@@ -39,47 +39,21 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
 
   connectedCallback() {
     this.update();
-    this.root
-      .querySelector("#request-form")
-      .addEventListener("submit", this._onRequestFormSubmitListener);
-    this.root
-      .querySelector("#confirm-form")
-      .addEventListener("submit", this._onConfirmFormSubmitListener);
-    this.root
-      .querySelector("#confirm-form")
-      .addEventListener("reset", this._onConfirmFormResetListener);
-    this.root
-      .querySelector("button[type=reset]")
-      .addEventListener("click", this._onResetButtonClickListener);
-    this.root
-      .querySelector("#user-agreement")
-      .addEventListener("change", this._onAcceptUserAgreementListener);
-    this.addEventListener(
-      "enrollment-provider-connected",
-      this._onEnrollmentProviderConnectedListener
-    );
+    this.root.querySelector("#request-form").addEventListener("submit", this._onRequestFormSubmitListener);
+    this.root.querySelector("#confirm-form").addEventListener("submit", this._onConfirmFormSubmitListener);
+    this.root.querySelector("#confirm-form").addEventListener("reset", this._onConfirmFormResetListener);
+    this.root.querySelector("button[type=reset]").addEventListener("click", this._onResetButtonClickListener);
+    this.root.querySelector("#user-agreement").addEventListener("change", this._onAcceptUserAgreementListener);
+    this.addEventListener("enrollment-provider-connected", this._onEnrollmentProviderConnectedListener);
   }
 
   disconnectedCallback() {
-    this.root
-      .querySelector("#request-form")
-      .removeEventListener("submit", this._onRequestFormSubmitListener);
-    this.root
-      .querySelector("#confirm-form")
-      .removeEventListener("submit", this._onConfirmFormSubmitListener);
-    this.root
-      .querySelector("#confirm-form")
-      .removeEventListener("reset", this._onConfirmFormResetListener);
-    this.root
-      .querySelector("button[type=reset]")
-      .removeEventListener("click", this._onResetButtonClickListener);
-    this.root
-      .querySelector("#user-agreement")
-      .removeEventListener("change", this._onAcceptUserAgreementListener);
-    this.removeEventListener(
-      "enrollment-provider-connected",
-      this._onEnrollmentProviderConnectedListener
-    );
+    this.root.querySelector("#request-form").removeEventListener("submit", this._onRequestFormSubmitListener);
+    this.root.querySelector("#confirm-form").removeEventListener("submit", this._onConfirmFormSubmitListener);
+    this.root.querySelector("#confirm-form").removeEventListener("reset", this._onConfirmFormResetListener);
+    this.root.querySelector("button[type=reset]").removeEventListener("click", this._onResetButtonClickListener);
+    this.root.querySelector("#user-agreement").removeEventListener("change", this._onAcceptUserAgreementListener);
+    this.removeEventListener("enrollment-provider-connected", this._onEnrollmentProviderConnectedListener);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -116,21 +90,30 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
   }
 
   update() {
-    if (!this.root.innerHTML) {
-      this.root.innerHTML = `
-        <form id="request-form" part="form">
-          <button part="button request-button" type="submit">${this.requestButtonText}</button>
-          <code part="code hidden" hidden>${this.peerCode}</code>
-        </form>
-        <form id="confirm-form" part="form hidden" hidden>
-          <label part="label" for="user-agreement">
-            <input part="checkbox" id="user-agreement" type="checkbox" required>
-            <span>${this.agreementText}</span>
-          </label>
-          <button part="button confirm-button" type="submit">${this.confirmButtonText}</button>
-          <button part="button cancel-button" type="reset">${this.cancelButtonText}</button>
-        </form>
-      `;
+    if (!this.root.querySelector("form")) {
+      const template = new DOMParser()
+        .parseFromString(
+          `
+            <template>
+              <form id="request-form" part="form">
+                <button part="button request-button" type="submit">${this.requestButtonText}</button>
+                <code part="code hidden" hidden>${this.peerCode}</code>
+              </form>
+              <form id="confirm-form" part="form hidden" hidden>
+                <label part="label" for="user-agreement">
+                  <input part="checkbox" id="user-agreement" type="checkbox" required>
+                  <span>${this.agreementText}</span>
+                </label>
+                <button part="button confirm-button" type="submit">${this.confirmButtonText}</button>
+                <button part="button cancel-button" type="reset">${this.cancelButtonText}</button>
+              </form>
+            </template>
+          `,
+          "text/html"
+        )
+        .querySelector("template");
+
+      this.root.replaceChildren(template.content.cloneNode(true));
     }
   }
 
@@ -169,10 +152,7 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
   }
 
   get agreementText() {
-    return (
-      this.getAttribute("agreement-text") ||
-      "I understand that this device will be added to another account"
-    );
+    return this.getAttribute("agreement-text") || "I understand that this device will be added to another account";
   }
 
   set agreementText(value) {
@@ -216,10 +196,10 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
       iceServers: this.rtcIceServers,
     });
     this.RTC.createDataChannel();
-    this.RTC.oncode = (code) => {
+    this.RTC.oncode = code => {
       this.peerCode = code;
     };
-    this.RTC.onuser = async (user) => {
+    this.RTC.onuser = async user => {
       await this.RTC.createOffer();
       this.agreementText = `I understand that this device will be added to ${user}'s account`;
       this.dispatchEvent(new CustomEvent("enrollment-provider-connected", { detail: user }));
@@ -263,7 +243,7 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
     }
 
     if (!this.RTC.ondatachannelmessage) {
-      this.RTC.ondatachannelmessage = (event) => {
+      this.RTC.ondatachannelmessage = event => {
         const [type, data] = event.data.split("::");
 
         if (type === "token") {
@@ -332,9 +312,7 @@ export class WebAuthnRTCEnrollmentRequester extends HTMLElement {
       this.registrationAddToken = "";
       this.root.querySelector("#confirm-form").reset();
     } catch (error) {
-      this.dispatchEvent(
-        new CustomEvent("enrollment-error", { detail: { message: error.message } })
-      );
+      this.dispatchEvent(new CustomEvent("enrollment-error", { detail: { message: error.message } }));
       this.RTC?.sendData("action::cancel");
       this.RTC?.close();
     }

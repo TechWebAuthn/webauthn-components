@@ -57,14 +57,23 @@ export class WebAuthnLogin extends HTMLElement {
   }
 
   update() {
-    if (!this.root.innerHTML) {
-      this.root.innerHTML = `
-        <form part="form">
-          <label part="label" for="authn-username">${this.label}</label>
-          <input part="input" id="authn-username" type="${this.inputType}" name="${this.inputName}" />
-          <button part="button" type="submit">${this.buttonText}</button>
-        </form>
-      `;
+    if (!this.root.querySelector("form")) {
+      const template = new DOMParser()
+        .parseFromString(
+          `
+            <template>
+              <form part="form">
+                <label part="label" for="webauthn-username">${this.label}</label>
+                <input part="input" id="webauthn-username" type="${this.inputType}" name="${this.inputName}" />
+                <button part="button" type="submit">${this.buttonText}</button>
+              </form>
+            </template>
+          `,
+          "text/html"
+        )
+        .querySelector("template");
+
+      this.root.replaceChildren(template.content.cloneNode(true));
     }
 
     this._shouldUseUsername();
@@ -137,9 +146,7 @@ export class WebAuthnLogin extends HTMLElement {
   }
 
   async _getLoginCredentialEncoder() {
-    return typeof this.loginCredentialEncoder === "function"
-      ? this.loginCredentialEncoder
-      : encodeLoginCredential;
+    return typeof this.loginCredentialEncoder === "function" ? this.loginCredentialEncoder : encodeLoginCredential;
   }
 
   async _onFormSubmit(event) {

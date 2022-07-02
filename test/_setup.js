@@ -9,3 +9,4 @@ global.HTMLElement = window.HTMLElement;
 global.Promise = window.Promise;
 global.CustomEvent = window.CustomEvent;
 global.FormData = window.FormData;
+global.DOMParser = window.DOMParser;

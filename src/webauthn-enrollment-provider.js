@@ -35,12 +35,21 @@ export class WebAuthnEnrollmentProvider extends HTMLElement {
   }
 
   update() {
-    if (!this.root.innerHTML) {
-      this.root.innerHTML = `
-        <form part="form">
-          <button part="button" type="submit">${this.buttonText}</button>
-        </form>
-      `;
+    if (!this.root.querySelector("form")) {
+      const template = new DOMParser()
+        .parseFromString(
+          `
+            <template>
+              <form part="form">
+                <button part="button" type="submit">${this.buttonText}</button>
+              </form>
+            </template>
+          `,
+          "text/html"
+        )
+        .querySelector("template");
+
+      this.root.replaceChildren(template.content.cloneNode(true));
     }
   }
 
@@ -68,9 +77,7 @@ export class WebAuthnEnrollmentProvider extends HTMLElement {
 
       this.dispatchEvent(new CustomEvent("enrollment-provided", { detail: jsonResponse }));
     } catch (error) {
-      this.dispatchEvent(
-        new CustomEvent("enrollment-error", { detail: { message: error.message } })
-      );
+      this.dispatchEvent(new CustomEvent("enrollment-error", { detail: { message: error.message } }));
     }
   }
 }

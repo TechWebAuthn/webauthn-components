@@ -54,14 +54,23 @@ export class WebAuthnEnrollmentRequester extends HTMLElement {
   }
 
   update() {
-    if (!this.root.innerHTML) {
-      this.root.innerHTML = `
-        <form part="form">
-          <label part="label" for="authn-enrollment-token">${this.label}</label>
-          <input part="input" id="authn-enrollment-token" type="${this.inputType}" name="${this.inputName}" />
-          <button part="button" type="submit">${this.buttonText}</button>
-        </form>
-      `;
+    if (!this.root.querySelector("form")) {
+      const template = new DOMParser()
+        .parseFromString(
+          `
+            <template>
+              <form part="form">
+                <label part="label" for="webauthn-enrollment-token">${this.label}</label>
+                <input part="input" id="webauthn-enrollment-token" type="${this.inputType}" name="${this.inputName}" />
+                <button part="button" type="submit">${this.buttonText}</button>
+              </form>
+            </template>
+          `,
+          "text/html"
+        )
+        .querySelector("template");
+
+      this.root.replaceChildren(template.content.cloneNode(true));
     }
   }
 
@@ -127,8 +136,7 @@ export class WebAuthnEnrollmentRequester extends HTMLElement {
         body: JSON.stringify({ registrationAddToken }),
       });
 
-      const { status, registrationId, publicKeyCredentialCreationOptions } =
-        await startResponse.json();
+      const { status, registrationId, publicKeyCredentialCreationOptions } = await startResponse.json();
 
       if (!startResponse.ok) {
         throw new Error(status || "Could not successfuly start enrollment");
@@ -160,9 +168,7 @@ export class WebAuthnEnrollmentRequester extends HTMLElement {
       const jsonFinishResponse = await finishResponse.json();
       this.dispatchEvent(new CustomEvent("enrollment-finished", { detail: jsonFinishResponse }));
     } catch (error) {
-      this.dispatchEvent(
-        new CustomEvent("enrollment-error", { detail: { message: error.message } })
-      );
+      this.dispatchEvent(new CustomEvent("enrollment-error", { detail: { message: error.message } }));
     }
   }
 }

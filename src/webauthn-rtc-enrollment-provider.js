@@ -59,14 +59,23 @@ export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
   }
 
   update() {
-    if (!this.root.innerHTML) {
-      this.root.innerHTML = `
-        <form part="form">
-          <label part="label" for="peer-code">${this.label}</label>
-          <input part="input" id="peer-code" name="${this.inputName}" type="${this.inputType}" required />
-          <button part="button" type="submit">${this.buttonText}</button>
-        </form>
-      `;
+    if (!this.root.querySelector("form")) {
+      const template = new DOMParser()
+        .parseFromString(
+          `
+            <template>
+              <form part="form">
+                <label part="label" for="peer-code">${this.label}</label>
+                <input part="input" id="peer-code" name="${this.inputName}" type="${this.inputType}" required />
+                <button part="button" type="submit">${this.buttonText}</button>
+              </form>
+            </template>
+          `,
+          "text/html"
+        )
+        .querySelector("template");
+
+      this.root.replaceChildren(template.content.cloneNode(true));
     }
   }
 
@@ -118,7 +127,7 @@ export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
     this.RTC.listenForData();
     this.RTC.signaling.send({ code });
 
-    this.RTC.ondatachannelmessage = async (event) => {
+    this.RTC.ondatachannelmessage = async event => {
       const [type, data] = event.data.split("::");
 
       if (type === "action" && data === "add") {
@@ -148,9 +157,7 @@ export class WebAuthnRTCEnrollmentProvider extends HTMLElement {
       this.RTC.sendData(`token::${jsonResponse.registrationAddToken}`);
       this.dispatchEvent(new CustomEvent("enrollment-provided", { detail: jsonResponse }));
     } catch (error) {
-      this.dispatchEvent(
-        new CustomEvent("enrollment-error", { detail: { message: error.message } })
-      );
+      this.dispatchEvent(new CustomEvent("enrollment-error", { detail: { message: error.message } }));
     }
 
     this.root.querySelector("input").value = "";
