@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { terser } from "rollup-plugin-terser";
 
-fs.rmdirSync("dist", { recursive: true });
+fs.rmSync("dist", { recursive: true });
 
 const defaults = {
   output: {
