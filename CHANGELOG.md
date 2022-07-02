@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add unit tests
 
+## [0.2.9] - 2022-07-02
+
+### Fixed
+
+- [#4](https://github.com/TechWebAuthn/webauthn-components/issues/4) Use DOMParser for component templates to ensure better compatibility across frameworks and libraries
+
 ## [0.2.8] - 2021-10-07
 
 ### Changed
@@ -78,7 +84,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Diffs
 
-- [unreleased] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.8...HEAD
+- [unreleased] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.9...HEAD
+- [0.2.9] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.9...v0.2.8
 - [0.2.8] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.8...v0.2.7
 - [0.2.7] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.7...v0.2.6
 - [0.2.6] - https://github.com/TechWebAuthn/webauthn-components/compare/v0.2.6...v0.2.5
